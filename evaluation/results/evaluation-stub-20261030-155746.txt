@@ -1,0 +1,43 @@
+======================================================================
+CrossDoc Intelligence - evaluation (stub mode)
+run at 2026-10-30T15:57:46.371910+00:00
+
+STUB MODE - these figures measure the evaluation harness, not the reasoning model. The stub classifies by comparing digits. Do not report these as model accuracy.
+======================================================================
+
+Pairs: 42  classified: 42  unclassified: 0
+Accuracy (classified pairs): 0.4048
+Accuracy (unclassified counted as errors): 0.4048
+
+Confusion matrix
+                  CONT   SUPP   NEUT   none
+CONTRADICTION        7      1      8      0
+SUPPORT              1      4      7      0
+NEUTRAL              6      2      6      0
+(rows = gold label, columns = predicted)
+
+label               prec     rec      f1     n
+CONTRADICTION        0.5  0.4375  0.4667    16
+SUPPORT           0.5714  0.3333  0.4211    12
+NEUTRAL           0.2857  0.4286  0.3429    14
+macro avg         0.4524  0.3998  0.4102
+weighted avg       0.449  0.4048  0.4124
+
+Contradiction detection (one-vs-rest)
+  precision 0.5  recall 0.4375  f1 0.4667
+  tp 7  fp 7  fn 9  tn 19
+
+Hard negatives: 2/8 correct (accuracy 0.25)
+Category agreement: 4/7 (accuracy 0.5714)
+    DATE_CONFLICT -> NUMERICAL_CONFLICT: 2
+    FACTUAL_CONFLICT -> NUMERICAL_CONFLICT: 1
+
+----------------------------------------------------------------------
+API usage (reported by the API)
+  embedding tokens     0
+  reasoning in tokens  720
+  reasoning out tokens 540
+  total tokens         1260
+  requests             0 embedding, 6 reasoning, 0 failed
+  estimated cost (USD) 0.0
+  Estimated from configured list prices and API-reported token counts. Not a billing figure.

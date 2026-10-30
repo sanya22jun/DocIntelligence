@@ -1,0 +1,914 @@
+{
+  "mode": "live",
+  "run_at": "2026-10-30T16:06:51.109989+00:00",
+  "models": {
+    "embedding": "text-embedding-3-small",
+    "reasoning": "gpt-4.1-mini"
+  },
+  "dataset": {
+    "pairs_available": 42,
+    "pairs_evaluated": 42,
+    "source": "evaluation/dataset.py (hand-labelled)"
+  },
+  "warnings": [],
+  "relationship_evaluation": {
+    "labels": [
+      "CONTRADICTION",
+      "SUPPORT",
+      "NEUTRAL"
+    ],
+    "confusion_matrix": {
+      "CONTRADICTION": {
+        "CONTRADICTION": 15,
+        "SUPPORT": 0,
+        "NEUTRAL": 1
+      },
+      "SUPPORT": {
+        "CONTRADICTION": 0,
+        "SUPPORT": 12,
+        "NEUTRAL": 0
+      },
+      "NEUTRAL": {
+        "CONTRADICTION": 0,
+        "SUPPORT": 1,
+        "NEUTRAL": 13
+      }
+    },
+    "unclassified_by_gold": {
+      "CONTRADICTION": 0,
+      "SUPPORT": 0,
+      "NEUTRAL": 0
+    },
+    "per_class": {
+      "CONTRADICTION": {
+        "precision": 1.0,
+        "recall": 0.9375,
+        "f1": 0.9677,
+        "support": 16,
+        "true_positive": 15,
+        "false_positive": 0,
+        "false_negative": 1
+      },
+      "SUPPORT": {
+        "precision": 0.9231,
+        "recall": 1.0,
+        "f1": 0.96,
+        "support": 12,
+        "true_positive": 12,
+        "false_positive": 1,
+        "false_negative": 0
+      },
+      "NEUTRAL": {
+        "precision": 0.9286,
+        "recall": 0.9286,
+        "f1": 0.9286,
+        "support": 14,
+        "true_positive": 13,
+        "false_positive": 1,
+        "false_negative": 1
+      }
+    },
+    "macro_avg": {
+      "precision": 0.9506,
+      "recall": 0.9554,
+      "f1": 0.9521
+    },
+    "weighted_avg": {
+      "precision": 0.9542,
+      "recall": 0.9524,
+      "f1": 0.9525
+    },
+    "accuracy": 0.9524,
+    "accuracy_including_unclassified": 0.9524,
+    "counts": {
+      "total": 42,
+      "classified": 42,
+      "correct": 40,
+      "incorrect": 2,
+      "unclassified": 0
+    },
+    "contradiction_detection": {
+      "positive_label": "CONTRADICTION",
+      "true_positive": 15,
+      "false_positive": 0,
+      "false_negative": 1,
+      "true_negative": 26,
+      "false_negative_due_to_unclassified": 0,
+      "precision": 1.0,
+      "recall": 0.9375,
+      "f1": 0.9677
+    },
+    "category_accuracy": {
+      "evaluated_on": 15,
+      "matched": 12,
+      "accuracy": 0.8,
+      "confusions": {
+        "FACTUAL_CONFLICT -> POLICY_CONFLICT": 2,
+        "LOGICAL_CONFLICT -> POLICY_CONFLICT": 1
+      },
+      "note": "Counted only on pairs both the gold set and the model call a contradiction. Category boundaries overlap (a changed deadline is arguably both NUMERICAL and DATE), so read this as indicative."
+    },
+    "hard_negatives": {
+      "count": 8,
+      "correct": 7,
+      "accuracy": 0.875
+    },
+    "by_gold_label": {
+      "CONTRADICTION": {
+        "count": 16,
+        "correct": 15,
+        "accuracy": 0.9375
+      },
+      "SUPPORT": {
+        "count": 12,
+        "correct": 12,
+        "accuracy": 1.0
+      },
+      "NEUTRAL": {
+        "count": 14,
+        "correct": 13,
+        "accuracy": 0.9286
+      }
+    }
+  },
+  "predictions": [
+    {
+      "pair_id": "ev_001",
+      "gold_relationship": "CONTRADICTION",
+      "predicted_relationship": "CONTRADICTION",
+      "correct": true,
+      "gold_category": "NUMERICAL_CONFLICT",
+      "predicted_category": "NUMERICAL_CONFLICT",
+      "confidence": 0.95,
+      "explanation": "Statement A says 20 days of paid annual leave, while statement B says 15 days for full-time employees per calendar year.",
+      "is_hard_negative": false,
+      "text_a": "Full-time employees are entitled to 20 days of paid annual leave per calendar year.",
+      "text_b": "Full-time employees receive 15 days of paid annual leave each calendar year.",
+      "note": "Same subject, same scope, different entitlement."
+    },
+    {
+      "pair_id": "ev_002",
+      "gold_relationship": "CONTRADICTION",
+      "predicted_relationship": "CONTRADICTION",
+      "correct": true,
+      "gold_category": "NUMERICAL_CONFLICT",
+      "predicted_category": "NUMERICAL_CONFLICT",
+      "confidence": 0.95,
+      "explanation": "Statement A requires leave requests 14 days in advance, while statement B requires 30 days in advance.",
+      "is_hard_negative": false,
+      "text_a": "Annual leave requests must be submitted at least 14 days before the intended start date.",
+      "text_b": "All leave requests must be submitted at least 30 days in advance of the start date.",
+      "note": "Incompatible notice periods for the same action."
+    },
+    {
+      "pair_id": "ev_003",
+      "gold_relationship": "CONTRADICTION",
+      "predicted_relationship": "CONTRADICTION",
+      "correct": true,
+      "gold_category": "NUMERICAL_CONFLICT",
+      "predicted_category": "NUMERICAL_CONFLICT",
+      "confidence": 0.9,
+      "explanation": "Statement A permits remote work up to 2 days per week, statement B permits up to 3 days per week, both with manager approval.",
+      "is_hard_negative": false,
+      "text_a": "Employees are permitted to work remotely for up to 2 days per week with manager approval.",
+      "text_b": "Remote work is permitted for a maximum of 3 days per week, subject to manager approval.",
+      "note": "Two different stated maxima for the same allowance."
+    },
+    {
+      "pair_id": "ev_004",
+      "gold_relationship": "CONTRADICTION",
+      "predicted_relationship": "CONTRADICTION",
+      "correct": true,
+      "gold_category": "NUMERICAL_CONFLICT",
+      "predicted_category": "NUMERICAL_CONFLICT",
+      "confidence": 0.95,
+      "explanation": "Statement A sets probation period at three months, statement B sets it at six months for new employees.",
+      "is_hard_negative": false,
+      "text_a": "The probation period for new employees is three months.",
+      "text_b": "All new employees serve a probation period of six months.",
+      "note": "Same population, different duration."
+    },
+    {
+      "pair_id": "ev_005",
+      "gold_relationship": "CONTRADICTION",
+      "predicted_relationship": "CONTRADICTION",
+      "correct": true,
+      "gold_category": "NUMERICAL_CONFLICT",
+      "predicted_category": "NUMERICAL_CONFLICT",
+      "confidence": 0.9,
+      "explanation": "Statement A reimburses hotel accommodation up to 4000 rupees per night, statement B up to 6000 rupees per night in metropolitan cities.",
+      "is_hard_negative": false,
+      "text_a": "Hotel accommodation is reimbursed up to 4000 rupees per night in metropolitan cities.",
+      "text_b": "Hotel stays in metropolitan cities are reimbursed up to 6000 rupees per night.",
+      "note": "Same scope (metro cities), different cap."
+    },
+    {
+      "pair_id": "ev_006",
+      "gold_relationship": "CONTRADICTION",
+      "predicted_relationship": "CONTRADICTION",
+      "correct": true,
+      "gold_category": "NUMERICAL_CONFLICT",
+      "predicted_category": "NUMERICAL_CONFLICT",
+      "confidence": 0.95,
+      "explanation": "Statement A requires a one month notice period for resignation, statement B requires 60 days notice period.",
+      "is_hard_negative": false,
+      "text_a": "The notice period for resignation is one month.",
+      "text_b": "Employees resigning must serve a notice period of 60 days.",
+      "note": "Unit mismatch hides the conflict: one month is not 60 days."
+    },
+    {
+      "pair_id": "ev_007",
+      "gold_relationship": "CONTRADICTION",
+      "predicted_relationship": "CONTRADICTION",
+      "correct": true,
+      "gold_category": "DATE_CONFLICT",
+      "predicted_category": "DATE_CONFLICT",
+      "confidence": 0.95,
+      "explanation": "Statement A defines leave year from 1 April to 31 March, statement B defines it from 1 January to 31 December.",
+      "is_hard_negative": false,
+      "text_a": "The leave year begins on 1 April and ends on 31 March.",
+      "text_b": "The leave year begins on 1 January and ends on 31 December.",
+      "note": "The same period is given two different start dates."
+    },
+    {
+      "pair_id": "ev_008",
+      "gold_relationship": "CONTRADICTION",
+      "predicted_relationship": "CONTRADICTION",
+      "correct": true,
+      "gold_category": "DATE_CONFLICT",
+      "predicted_category": "DATE_CONFLICT",
+      "confidence": 0.95,
+      "explanation": "Statement A states vendor agreement valid until 31 December 2025, statement B states it expires on 30 June 2026.",
+      "is_hard_negative": false,
+      "text_a": "The vendor agreement remains valid until 31 December 2025.",
+      "text_b": "The vendor agreement expires on 30 June 2026.",
+      "note": "Two end dates for one agreement."
+    },
+    {
+      "pair_id": "ev_009",
+      "gold_relationship": "CONTRADICTION",
+      "predicted_relationship": "NEUTRAL",
+      "correct": false,
+      "gold_category": "DATE_CONFLICT",
+      "predicted_category": null,
+      "confidence": 0.9,
+      "explanation": "The two statements specify different policies with different effective dates, not conflicting values for the same policy.",
+      "is_hard_negative": false,
+      "text_a": "This policy takes effect on 01 April 2023.",
+      "text_b": "This policy takes effect on 15 February 2024.",
+      "note": "Borderline by design: different documents may each have their own effective date, but as written both claim to be 'this policy'."
+    },
+    {
+      "pair_id": "ev_010",
+      "gold_relationship": "CONTRADICTION",
+      "predicted_relationship": "CONTRADICTION",
+      "correct": true,
+      "gold_category": "POLICY_CONFLICT",
+      "predicted_category": "POLICY_CONFLICT",
+      "confidence": 1.0,
+      "explanation": "One policy allows carrying over unused annual leave up to 5 days, the other forbids carryover and forfeits unused leave.",
+      "is_hard_negative": false,
+      "text_a": "Unused annual leave may be carried over to the following year, up to a maximum of 5 days.",
+      "text_b": "Unused annual leave cannot be carried over and is forfeited at the end of the year.",
+      "note": "One permits what the other forbids."
+    },
+    {
+      "pair_id": "ev_011",
+      "gold_relationship": "CONTRADICTION",
+      "predicted_relationship": "CONTRADICTION",
+      "correct": true,
+      "gold_category": "POLICY_CONFLICT",
+      "predicted_category": "POLICY_CONFLICT",
+      "confidence": 1.0,
+      "explanation": "One policy forbids reimbursement of alcoholic beverages, the other permits claims up to 500 rupees per evening meal.",
+      "is_hard_negative": false,
+      "text_a": "Alcoholic beverages are not reimbursable under this policy.",
+      "text_b": "Alcoholic drinks may be claimed up to 500 rupees per evening meal.",
+      "note": "A flat prohibition against a stated allowance."
+    },
+    {
+      "pair_id": "ev_012",
+      "gold_relationship": "CONTRADICTION",
+      "predicted_relationship": "CONTRADICTION",
+      "correct": true,
+      "gold_category": "POLICY_CONFLICT",
+      "predicted_category": "POLICY_CONFLICT",
+      "confidence": 1.0,
+      "explanation": "One policy states remote work does not require prior approval, the other requires prior written approval from a manager.",
+      "is_hard_negative": false,
+      "text_a": "Remote work does not require prior approval from a manager.",
+      "text_b": "Remote work is permitted only with prior written approval from a manager.",
+      "note": "Directly opposed approval requirements."
+    },
+    {
+      "pair_id": "ev_013",
+      "gold_relationship": "CONTRADICTION",
+      "predicted_relationship": "CONTRADICTION",
+      "correct": true,
+      "gold_category": "POLICY_CONFLICT",
+      "predicted_category": "POLICY_CONFLICT",
+      "confidence": 1.0,
+      "explanation": "One policy requires Finance Director approval for international travel, the other states approval is by the employee's line manager.",
+      "is_hard_negative": false,
+      "text_a": "International travel requires approval from the Finance Director.",
+      "text_b": "International travel is approved by the employee's line manager.",
+      "note": "Different approving authority for the same action."
+    },
+    {
+      "pair_id": "ev_014",
+      "gold_relationship": "CONTRADICTION",
+      "predicted_relationship": "CONTRADICTION",
+      "correct": true,
+      "gold_category": "FACTUAL_CONFLICT",
+      "predicted_category": "POLICY_CONFLICT",
+      "confidence": 1.0,
+      "explanation": "One policy schedules performance reviews twice per year (June and December), the other once per year (December only).",
+      "is_hard_negative": false,
+      "text_a": "Formal performance reviews are conducted twice per year, in June and December.",
+      "text_b": "Performance reviews take place once per year, in December.",
+      "note": "Incompatible review frequency."
+    },
+    {
+      "pair_id": "ev_015",
+      "gold_relationship": "CONTRADICTION",
+      "predicted_relationship": "CONTRADICTION",
+      "correct": true,
+      "gold_category": "FACTUAL_CONFLICT",
+      "predicted_category": "POLICY_CONFLICT",
+      "confidence": 1.0,
+      "explanation": "One policy states cafeteria hours as 08:00 to 18:00 weekdays, the other states 08:00 to 20:00 weekdays.",
+      "is_hard_negative": false,
+      "text_a": "The office cafeteria operates between 08:00 and 18:00 on weekdays.",
+      "text_b": "The office cafeteria is open from 08:00 to 20:00 on weekdays.",
+      "note": "Same facility, same days, different closing time."
+    },
+    {
+      "pair_id": "ev_016",
+      "gold_relationship": "CONTRADICTION",
+      "predicted_relationship": "CONTRADICTION",
+      "correct": true,
+      "gold_category": "LOGICAL_CONFLICT",
+      "predicted_category": "POLICY_CONFLICT",
+      "confidence": 1.0,
+      "explanation": "One policy states all employees are eligible for the annual performance bonus, the other states no employee is eligible.",
+      "is_hard_negative": false,
+      "text_a": "All employees are eligible for the annual performance bonus.",
+      "text_b": "No employee is eligible for the annual performance bonus.",
+      "note": "Universal affirmative against universal negative."
+    },
+    {
+      "pair_id": "ev_017",
+      "gold_relationship": "SUPPORT",
+      "predicted_relationship": "SUPPORT",
+      "correct": true,
+      "gold_category": null,
+      "predicted_category": null,
+      "confidence": 0.95,
+      "explanation": "Both statements agree that employees receive 10 days of paid sick leave annually.",
+      "is_hard_negative": false,
+      "text_a": "Employees may take up to 10 days of paid sick leave per calendar year.",
+      "text_b": "The company provides 10 days of paid sick leave annually to every full-time employee.",
+      "note": "Same entitlement, different wording."
+    },
+    {
+      "pair_id": "ev_018",
+      "gold_relationship": "SUPPORT",
+      "predicted_relationship": "SUPPORT",
+      "correct": true,
+      "gold_category": null,
+      "predicted_category": null,
+      "confidence": 0.95,
+      "explanation": "Both require a medical certificate or doctor's note for sick leave longer than 2 consecutive days.",
+      "is_hard_negative": false,
+      "text_a": "A medical certificate is required for any sick leave absence longer than 2 consecutive days.",
+      "text_b": "A doctor's note is required when an employee is absent due to illness for more than 2 consecutive days.",
+      "note": "'Medical certificate' and 'doctor's note' are the same requirement."
+    },
+    {
+      "pair_id": "ev_019",
+      "gold_relationship": "SUPPORT",
+      "predicted_relationship": "SUPPORT",
+      "correct": true,
+      "gold_category": null,
+      "predicted_category": null,
+      "confidence": 0.95,
+      "explanation": "Both state that employees on probation are not eligible for remote work.",
+      "is_hard_negative": false,
+      "text_a": "Remote work is not available to employees serving their probation period.",
+      "text_b": "Employees on probation are not eligible for remote work arrangements.",
+      "note": "Identical restriction, inverted phrasing."
+    },
+    {
+      "pair_id": "ev_020",
+      "gold_relationship": "SUPPORT",
+      "predicted_relationship": "SUPPORT",
+      "correct": true,
+      "gold_category": null,
+      "predicted_category": null,
+      "confidence": 0.9,
+      "explanation": "20 days of paid annual leave equals four weeks; both statements agree on full-time employees' entitlement.",
+      "is_hard_negative": false,
+      "text_a": "Full-time employees are entitled to 20 days of paid annual leave per calendar year.",
+      "text_b": "Full-time staff receive four weeks of paid annual leave each year.",
+      "note": "Equivalent quantities in different units: 20 working days is four weeks. Differing numbers must not be read as a conflict here."
+    },
+    {
+      "pair_id": "ev_021",
+      "gold_relationship": "SUPPORT",
+      "predicted_relationship": "SUPPORT",
+      "correct": true,
+      "gold_category": null,
+      "predicted_category": null,
+      "confidence": 0.95,
+      "explanation": "Both require expense claims to be submitted within about one month (30 days) of incurring the expense.",
+      "is_hard_negative": false,
+      "text_a": "Expense claims must be submitted within 30 days of the date the expense was incurred.",
+      "text_b": "Employees must file expense claims inside one month of incurring the cost.",
+      "note": "30 days and one month are the same window."
+    },
+    {
+      "pair_id": "ev_022",
+      "gold_relationship": "SUPPORT",
+      "predicted_relationship": "SUPPORT",
+      "correct": true,
+      "gold_category": null,
+      "predicted_category": null,
+      "confidence": 0.95,
+      "explanation": "Both specify that employees below director level travel economy class on domestic flights.",
+      "is_hard_negative": false,
+      "text_a": "Domestic flights must be booked in economy class for all employees below director level.",
+      "text_b": "Non-director staff travel in economy class on domestic flights.",
+      "note": "Straight paraphrase."
+    },
+    {
+      "pair_id": "ev_023",
+      "gold_relationship": "SUPPORT",
+      "predicted_relationship": "SUPPORT",
+      "correct": true,
+      "gold_category": null,
+      "predicted_category": null,
+      "confidence": 0.95,
+      "explanation": "Both state the daily meal allowance for domestic travel is 1200 rupees per day.",
+      "is_hard_negative": false,
+      "text_a": "The daily meal allowance for domestic travel is 1200 rupees per day.",
+      "text_b": "Domestic travel carries a meal allowance of Rs 1,200 each day.",
+      "note": "Same value, different number formatting."
+    },
+    {
+      "pair_id": "ev_024",
+      "gold_relationship": "SUPPORT",
+      "predicted_relationship": "SUPPORT",
+      "correct": true,
+      "gold_category": null,
+      "predicted_category": null,
+      "confidence": 0.95,
+      "explanation": "Both require receipts and prior written approval for expense claims over 5000 rupees.",
+      "is_hard_negative": false,
+      "text_a": "All expense claims above 5000 rupees require a receipt and prior written approval.",
+      "text_b": "Any claim over Rs 5000 needs a receipt and written approval beforehand.",
+      "note": "Same threshold and same requirement."
+    },
+    {
+      "pair_id": "ev_025",
+      "gold_relationship": "SUPPORT",
+      "predicted_relationship": "SUPPORT",
+      "correct": true,
+      "gold_category": null,
+      "predicted_category": null,
+      "confidence": 0.95,
+      "explanation": "Both require Finance Director approval for international travel at least 21 days or three weeks in advance, which are equivalent time frames.",
+      "is_hard_negative": false,
+      "text_a": "International travel requires approval from the Finance Director at least 21 days in advance.",
+      "text_b": "Book international trips at least three weeks ahead with Finance Director sign-off.",
+      "note": "21 days is three weeks; the authority matches too."
+    },
+    {
+      "pair_id": "ev_026",
+      "gold_relationship": "SUPPORT",
+      "predicted_relationship": "SUPPORT",
+      "correct": true,
+      "gold_category": null,
+      "predicted_category": null,
+      "confidence": 0.98,
+      "explanation": "Both state managers must respond to leave requests within 3 working days, using slightly different wording but same requirement.",
+      "is_hard_negative": false,
+      "text_a": "Line managers are required to approve or reject a leave request within 3 working days.",
+      "text_b": "Managers must respond to a submitted leave request within 3 working days.",
+      "note": "Same obligation and deadline."
+    },
+    {
+      "pair_id": "ev_027",
+      "gold_relationship": "SUPPORT",
+      "predicted_relationship": "SUPPORT",
+      "correct": true,
+      "gold_category": null,
+      "predicted_category": null,
+      "confidence": 0.95,
+      "explanation": "Both state sick leave does not accumulate or roll over and is forfeited at year-end.",
+      "is_hard_negative": false,
+      "text_a": "Sick leave does not accumulate and cannot be carried over into the next year.",
+      "text_b": "Unused sick leave is forfeited at the end of each year and does not roll over.",
+      "note": "Agreement expressed with different negations."
+    },
+    {
+      "pair_id": "ev_028",
+      "gold_relationship": "SUPPORT",
+      "predicted_relationship": "SUPPORT",
+      "correct": true,
+      "gold_category": null,
+      "predicted_category": null,
+      "confidence": 0.98,
+      "explanation": "Both state alcoholic beverages or drinks are not reimbursable under the policy.",
+      "is_hard_negative": false,
+      "text_a": "Alcoholic beverages are not reimbursable under this policy.",
+      "text_b": "The company does not reimburse alcoholic drinks.",
+      "note": "The same prohibition stated twice."
+    },
+    {
+      "pair_id": "ev_029",
+      "gold_relationship": "NEUTRAL",
+      "predicted_relationship": "NEUTRAL",
+      "correct": true,
+      "gold_category": null,
+      "predicted_category": null,
+      "confidence": 0.95,
+      "explanation": "One refers to managers entitled to 25 days annual leave, the other to interns entitled to 15 days; different populations, so compatible.",
+      "is_hard_negative": true,
+      "text_a": "Managers are entitled to 25 days of paid annual leave per year.",
+      "text_b": "Interns are entitled to 15 days of paid annual leave per year.",
+      "note": "HARD NEGATIVE. Numbers differ but the populations differ, so both can hold at once."
+    },
+    {
+      "pair_id": "ev_030",
+      "gold_relationship": "NEUTRAL",
+      "predicted_relationship": "NEUTRAL",
+      "correct": true,
+      "gold_category": null,
+      "predicted_category": null,
+      "confidence": 0.98,
+      "explanation": "One states employees get 20 days paid annual leave, the other states employees get 10 days paid sick leave; different leave types, so compatible.",
+      "is_hard_negative": true,
+      "text_a": "Employees are entitled to 20 days of paid annual leave per year.",
+      "text_b": "Employees are entitled to 10 days of paid sick leave per year.",
+      "note": "HARD NEGATIVE. Near-identical wording, different kinds of leave."
+    },
+    {
+      "pair_id": "ev_031",
+      "gold_relationship": "NEUTRAL",
+      "predicted_relationship": "NEUTRAL",
+      "correct": true,
+      "gold_category": null,
+      "predicted_category": null,
+      "confidence": 0.95,
+      "explanation": "One states reimbursement up to 4000 rupees per night in metropolitan cities, the other up to 2500 rupees in non-metropolitan cities; different locations, so compatible.",
+      "is_hard_negative": true,
+      "text_a": "Hotel accommodation is reimbursed up to 4000 rupees per night in metropolitan cities.",
+      "text_b": "Hotel accommodation is reimbursed up to 2500 rupees per night in non-metropolitan cities.",
+      "note": "HARD NEGATIVE. Different caps for explicitly different location tiers."
+    },
+    {
+      "pair_id": "ev_032",
+      "gold_relationship": "NEUTRAL",
+      "predicted_relationship": "NEUTRAL",
+      "correct": true,
+      "gold_category": null,
+      "predicted_category": null,
+      "confidence": 0.98,
+      "explanation": "One states sick leave cannot be carried over, the other states annual leave may be carried over up to 5 days; different leave types, so compatible.",
+      "is_hard_negative": true,
+      "text_a": "Sick leave cannot be carried over into the next year.",
+      "text_b": "Annual leave may be carried over up to a maximum of 5 days.",
+      "note": "HARD NEGATIVE. Opposite carry-over rules, but for two different leave types."
+    },
+    {
+      "pair_id": "ev_033",
+      "gold_relationship": "NEUTRAL",
+      "predicted_relationship": "SUPPORT",
+      "correct": false,
+      "gold_category": null,
+      "predicted_category": null,
+      "confidence": 0.95,
+      "explanation": "Statement B allows claims after 30 days with director approval, which complements statement A's 30-day submission rule.",
+      "is_hard_negative": true,
+      "text_a": "Expense claims must be submitted within 30 days of the date the expense was incurred.",
+      "text_b": "Claims delayed by certified medical leave may be accepted after 30 days with director approval.",
+      "note": "HARD NEGATIVE. The second is a stated exception to the first, not a contradiction of it."
+    },
+    {
+      "pair_id": "ev_034",
+      "gold_relationship": "NEUTRAL",
+      "predicted_relationship": "NEUTRAL",
+      "correct": true,
+      "gold_category": null,
+      "predicted_category": null,
+      "confidence": 0.9,
+      "explanation": "Statement A refers to the leave year starting 1 April, while statement B refers to the financial year starting 1 April; different scopes.",
+      "is_hard_negative": true,
+      "text_a": "The leave year begins on 1 April.",
+      "text_b": "The financial year begins on 1 April.",
+      "note": "HARD NEGATIVE. Same date, different subjects; agreement about nothing in common."
+    },
+    {
+      "pair_id": "ev_035",
+      "gold_relationship": "NEUTRAL",
+      "predicted_relationship": "NEUTRAL",
+      "correct": true,
+      "gold_category": null,
+      "predicted_category": null,
+      "confidence": 0.95,
+      "explanation": "Statement A concerns visitor parking on the second level; statement B concerns staff parking on the third level, different subjects.",
+      "is_hard_negative": true,
+      "text_a": "Visitor parking is located on the second level of the north garage.",
+      "text_b": "Staff parking is located on the third level of the north garage.",
+      "note": "HARD NEGATIVE. Different populations, compatible facts."
+    },
+    {
+      "pair_id": "ev_036",
+      "gold_relationship": "NEUTRAL",
+      "predicted_relationship": "NEUTRAL",
+      "correct": true,
+      "gold_category": null,
+      "predicted_category": null,
+      "confidence": 0.9,
+      "explanation": "Statement A addresses equipment allowance for remote workers; statement B limits remote work days per week; different aspects.",
+      "is_hard_negative": false,
+      "text_a": "Employees working remotely may claim a one-time equipment allowance of 8000 rupees.",
+      "text_b": "Remote work is permitted for a maximum of 3 days per week.",
+      "note": "Related topic, unrelated provisions."
+    },
+    {
+      "pair_id": "ev_037",
+      "gold_relationship": "NEUTRAL",
+      "predicted_relationship": "NEUTRAL",
+      "correct": true,
+      "gold_category": null,
+      "predicted_category": null,
+      "confidence": 0.95,
+      "explanation": "Statement A is about cafeteria hours; statement B is about flight booking class; unrelated subjects.",
+      "is_hard_negative": false,
+      "text_a": "The office cafeteria operates between 08:00 and 18:00 on weekdays.",
+      "text_b": "Domestic flights must be booked in economy class for staff below director level.",
+      "note": "Entirely unrelated subjects."
+    },
+    {
+      "pair_id": "ev_038",
+      "gold_relationship": "NEUTRAL",
+      "predicted_relationship": "NEUTRAL",
+      "correct": true,
+      "gold_category": null,
+      "predicted_category": null,
+      "confidence": 0.95,
+      "explanation": "Statement A concerns visitor parking location; statement B concerns daily meal allowance for domestic travel; unrelated subjects.",
+      "is_hard_negative": false,
+      "text_a": "Visitor parking is located on the second level of the north garage.",
+      "text_b": "The daily meal allowance for domestic travel is 1200 rupees per day.",
+      "note": "Unrelated."
+    },
+    {
+      "pair_id": "ev_039",
+      "gold_relationship": "NEUTRAL",
+      "predicted_relationship": "NEUTRAL",
+      "correct": true,
+      "gold_category": null,
+      "predicted_category": null,
+      "confidence": 0.95,
+      "explanation": "Statement A concerns timing of performance reviews; statement B concerns salary revision effective date; different subjects.",
+      "is_hard_negative": false,
+      "text_a": "Formal performance reviews are conducted in June and December.",
+      "text_b": "Salary revisions take effect from 1 April each year.",
+      "note": "Different processes on different calendars."
+    },
+    {
+      "pair_id": "ev_040",
+      "gold_relationship": "NEUTRAL",
+      "predicted_relationship": "NEUTRAL",
+      "correct": true,
+      "gold_category": null,
+      "predicted_category": null,
+      "confidence": 0.95,
+      "explanation": "Statement A sets sick leave entitlement; statement B sets notification timing; different aspects of absence policy.",
+      "is_hard_negative": false,
+      "text_a": "Employees may take up to 10 days of paid sick leave per calendar year.",
+      "text_b": "Employees must inform their manager before 10:00 on the first day of absence.",
+      "note": "Same topic, complementary rather than overlapping."
+    },
+    {
+      "pair_id": "ev_041",
+      "gold_relationship": "NEUTRAL",
+      "predicted_relationship": "NEUTRAL",
+      "correct": true,
+      "gold_category": null,
+      "predicted_category": null,
+      "confidence": 0.95,
+      "explanation": "Statement A discusses claim submission deadlines for reimbursement, while Statement B describes the timing of reimbursement payments; they address different aspects of reimbursement.",
+      "is_hard_negative": false,
+      "text_a": "Claims submitted after 60 days will not be reimbursed under any circumstances.",
+      "text_b": "Reimbursements are paid with the following month's salary.",
+      "note": "Submission deadline versus payment timing."
+    },
+    {
+      "pair_id": "ev_042",
+      "gold_relationship": "NEUTRAL",
+      "predicted_relationship": "NEUTRAL",
+      "correct": true,
+      "gold_category": null,
+      "predicted_category": null,
+      "confidence": 0.95,
+      "explanation": "Statement A describes cafeteria operating hours on weekdays, while Statement B describes gym hours every day; they concern different facilities and schedules.",
+      "is_hard_negative": true,
+      "text_a": "The office cafeteria operates between 08:00 and 18:00 on weekdays.",
+      "text_b": "The staff gym is open from 06:00 to 22:00 every day.",
+      "note": "HARD NEGATIVE of a milder kind: both state opening hours for different facilities."
+    }
+  ],
+  "reasoning_stats": {
+    "pairs_submitted": 42,
+    "pairs_classified": 42,
+    "unclassified": [],
+    "requests": 6,
+    "retries": 0,
+    "batch_splits": 0,
+    "request_budget": 14
+  },
+  "retrieval_evaluation": {
+    "documents": [
+      "finance_travel_policy.txt",
+      "hr_handbook_2024.txt",
+      "hr_leave_policy_2023.txt"
+    ],
+    "statements": 38,
+    "candidate_selection": {
+      "statements": 38,
+      "cross_document_pairs": 481,
+      "above_threshold": 14,
+      "skipped_identical": 1,
+      "selected": 13,
+      "dropped_by_cap": 0,
+      "threshold": 0.65,
+      "top_k": 5,
+      "max_pairs": 100,
+      "highest_similarity": 1.0
+    },
+    "planted_pairs": [
+      {
+        "label": "annual leave: 20 vs 15 days",
+        "expected_relationship": "CONTRADICTION",
+        "snippet_a": "entitled to 20 days of paid annual leave",
+        "snippet_b": "receive 15 days of paid annual leave",
+        "located": true,
+        "sentence_ids": [
+          "sent_016",
+          "sent_028"
+        ],
+        "shortlisted": true,
+        "similarity": 0.8909
+      },
+      {
+        "label": "leave notice: 14 vs 30 days",
+        "expected_relationship": "CONTRADICTION",
+        "snippet_a": "at least 14 days before the intended start date",
+        "snippet_b": "at least 30 days in advance of the start date",
+        "located": true,
+        "sentence_ids": [
+          "sent_017",
+          "sent_029"
+        ],
+        "shortlisted": true,
+        "similarity": 0.749
+      },
+      {
+        "label": "remote work: 2 vs 3 days per week",
+        "expected_relationship": "CONTRADICTION",
+        "snippet_a": "work remotely for up to 2 days per week with manager approval",
+        "snippet_b": "maximum of 3 days per week, subject to manager approval",
+        "located": true,
+        "sentence_ids": [
+          "sent_022",
+          "sent_035"
+        ],
+        "shortlisted": true,
+        "similarity": 0.8433
+      },
+      {
+        "label": "leave year: 1 April vs 1 January",
+        "expected_relationship": "CONTRADICTION",
+        "snippet_a": "leave year begins on 1 April",
+        "snippet_b": "leave year begins on 1 January",
+        "located": true,
+        "sentence_ids": [
+          "sent_015",
+          "sent_027"
+        ],
+        "shortlisted": true,
+        "similarity": 0.8831
+      },
+      {
+        "label": "carry-over: 5 days vs forfeited",
+        "expected_relationship": "CONTRADICTION",
+        "snippet_a": "may be carried over to the following year",
+        "snippet_b": "cannot be carried over and is forfeited",
+        "located": true,
+        "sentence_ids": [
+          "sent_018",
+          "sent_030"
+        ],
+        "shortlisted": true,
+        "similarity": 0.7159
+      },
+      {
+        "label": "reviews: twice vs once per year",
+        "expected_relationship": "CONTRADICTION",
+        "snippet_a": "conducted twice per year, in June and December",
+        "snippet_b": "take place once per year, in December",
+        "located": true,
+        "sentence_ids": [
+          "sent_024",
+          "sent_037"
+        ],
+        "shortlisted": true,
+        "similarity": 0.8261
+      },
+      {
+        "label": "sick leave: 10 days in both",
+        "expected_relationship": "SUPPORT",
+        "snippet_a": "up to 10 days of paid sick leave per calendar year",
+        "snippet_b": "provides 10 days of paid sick leave annually",
+        "located": true,
+        "sentence_ids": [
+          "sent_020",
+          "sent_032"
+        ],
+        "shortlisted": true,
+        "similarity": 0.7703
+      },
+      {
+        "label": "medical note after 2 days in both",
+        "expected_relationship": "SUPPORT",
+        "snippet_a": "medical certificate is required for any sick leave absence",
+        "snippet_b": "doctor's note is required when an employee is absent",
+        "located": true,
+        "sentence_ids": [
+          "sent_021",
+          "sent_033"
+        ],
+        "shortlisted": true,
+        "similarity": 0.787
+      },
+      {
+        "label": "probation excluded from remote work",
+        "expected_relationship": "SUPPORT",
+        "snippet_a": "not available to employees serving their probation period",
+        "snippet_b": "on probation are not eligible for remote work",
+        "located": true,
+        "sentence_ids": [
+          "sent_023",
+          "sent_036"
+        ],
+        "shortlisted": true,
+        "similarity": 0.8441
+      },
+      {
+        "label": "manager response within 3 working days",
+        "expected_relationship": "SUPPORT",
+        "snippet_a": "approve or reject a leave request within 3 working days",
+        "snippet_b": "respond to a submitted leave request within 3 working days",
+        "located": true,
+        "sentence_ids": [
+          "sent_019",
+          "sent_031"
+        ],
+        "shortlisted": true,
+        "similarity": 0.8719
+      },
+      {
+        "label": "remote work: 2 days (HR vs Finance)",
+        "expected_relationship": "SUPPORT",
+        "snippet_a": "work remotely for up to 2 days per week with manager approval",
+        "snippet_b": "permitted to work remotely for up to 2 days per week",
+        "located": true,
+        "sentence_ids": [
+          "sent_011",
+          "sent_035"
+        ],
+        "shortlisted": true,
+        "similarity": 0.9513
+      }
+    ],
+    "planted_total": 11,
+    "planted_located": 11,
+    "planted_shortlisted": 11,
+    "retrieval_recall": 1.0,
+    "note": "Recall of the similarity gate: of the deliberately planted relationships, how many were shortlisted for the model. A planted pair that was not located in the segmented text is excluded from the ratio and reported under planted_located."
+  },
+  "usage": {
+    "embedding_tokens": 578,
+    "reasoning_input_tokens": 5888,
+    "reasoning_output_tokens": 3508,
+    "total_tokens": 9974,
+    "embedding_requests": 1,
+    "reasoning_requests": 6,
+    "failed_requests": 0,
+    "estimated_cost_usd": 0.00798,
+    "cost_basis": "Estimated from configured list prices and API-reported token counts. Not a billing figure."
+  }
+}

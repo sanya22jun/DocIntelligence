@@ -1,0 +1,58 @@
+======================================================================
+CrossDoc Intelligence - evaluation (live mode)
+run at 2026-10-30T16:06:51.109989+00:00
+======================================================================
+
+Pairs: 42  classified: 42  unclassified: 0
+Accuracy (classified pairs): 0.9524
+Accuracy (unclassified counted as errors): 0.9524
+
+Confusion matrix
+                  CONT   SUPP   NEUT   none
+CONTRADICTION       15      0      1      0
+SUPPORT              0     12      0      0
+NEUTRAL              0      1     13      0
+(rows = gold label, columns = predicted)
+
+label               prec     rec      f1     n
+CONTRADICTION        1.0  0.9375  0.9677    16
+SUPPORT           0.9231     1.0    0.96    12
+NEUTRAL           0.9286  0.9286  0.9286    14
+macro avg         0.9506  0.9554  0.9521
+weighted avg      0.9542  0.9524  0.9525
+
+Contradiction detection (one-vs-rest)
+  precision 1.0  recall 0.9375  f1 0.9677
+  tp 15  fp 0  fn 1  tn 26
+
+Hard negatives: 7/8 correct (accuracy 0.875)
+Category agreement: 12/15 (accuracy 0.8)
+    FACTUAL_CONFLICT -> POLICY_CONFLICT: 2
+    LOGICAL_CONFLICT -> POLICY_CONFLICT: 1
+
+----------------------------------------------------------------------
+Candidate selection (similarity gate)
+  statements: 38  shortlisted pairs: 13
+  planted pairs located: 11/11
+  planted pairs shortlisted: 11/11  (recall 1.0)
+    ok   annual leave: 20 vs 15 days        sim=0.8909
+    ok   leave notice: 14 vs 30 days        sim=0.749
+    ok   remote work: 2 vs 3 days per week  sim=0.8433
+    ok   leave year: 1 April vs 1 January   sim=0.8831
+    ok   carry-over: 5 days vs forfeited    sim=0.7159
+    ok   reviews: twice vs once per year    sim=0.8261
+    ok   sick leave: 10 days in both        sim=0.7703
+    ok   medical note after 2 days in both  sim=0.787
+    ok   probation excluded from remote work sim=0.8441
+    ok   manager response within 3 working days sim=0.8719
+    ok   remote work: 2 days (HR vs Finance) sim=0.9513
+
+----------------------------------------------------------------------
+API usage (reported by the API)
+  embedding tokens     578
+  reasoning in tokens  5888
+  reasoning out tokens 3508
+  total tokens         9974
+  requests             1 embedding, 6 reasoning, 0 failed
+  estimated cost (USD) 0.00798
+  Estimated from configured list prices and API-reported token counts. Not a billing figure.

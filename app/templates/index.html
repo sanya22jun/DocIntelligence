@@ -1,0 +1,280 @@
+{# CrossDoc Intelligence - document consistency dashboard #}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CrossDoc Intelligence</title>
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+    rel="stylesheet">
+  <link rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+<header class="app-header">
+  <div class="container">
+    <div class="d-flex align-items-center gap-3">
+      <span class="brand-mark" aria-hidden="true">CD</span>
+      <div>
+        <h1 class="brand-title">CrossDoc Intelligence</h1>
+        <p class="brand-subtitle">
+          AI-powered semantic document consistency analysis.
+        </p>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="container app-main">
+
+  <!-- ============ Upload workspace ============ -->
+  <section class="card app-card mb-4">
+    <div class="card-body">
+      <div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-3">
+        <div>
+          <h2 class="card-heading">Document workspace</h2>
+          <p class="card-sub mb-0">
+            Upload {{ min_files }}&ndash;{{ max_files }} documents to compare.
+            Supported: {% for ext in allowed_extensions %}.{{ ext }}{% if not loop.last %}, {% endif %}{% endfor %}
+            &middot; up to {{ max_file_size_mb }} MB each.
+          </p>
+        </div>
+      </div>
+
+      <div id="dropzone" class="dropzone" tabindex="0"
+           role="button" aria-label="Add documents">
+        <svg class="dropzone-icon" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+          <path d="M12 16V4m0 0L8 8m4-4 4 4"/>
+          <path d="M4 15v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3"/>
+        </svg>
+        <p class="dropzone-title">Drag &amp; drop documents here</p>
+        <p class="dropzone-hint">or <span class="link-like">browse your files</span></p>
+        <input id="fileInput" type="file" multiple
+               accept=".pdf,.txt,application/pdf,text/plain" hidden>
+      </div>
+
+      <div id="fileListWrap" class="mt-3 d-none">
+        <div class="d-flex justify-content-between align-items-center mb-2">
+          <h3 class="list-heading mb-0">
+            Selected documents <span id="fileCount" class="text-muted"></span>
+          </h3>
+          <button id="clearFiles" type="button"
+                  class="btn btn-link btn-sm p-0 text-decoration-none">
+            Remove all
+          </button>
+        </div>
+        <ul id="fileList" class="file-list list-unstyled mb-0"></ul>
+      </div>
+
+      <div id="alertArea" class="mt-3"></div>
+
+      <div class="d-flex align-items-center gap-3 mt-3 flex-wrap">
+        <button id="analyzeBtn" type="button" class="btn btn-primary px-4" disabled>
+          <span id="analyzeSpinner"
+                class="spinner-border spinner-border-sm me-2 d-none"
+                role="status" aria-hidden="true"></span>
+          <span id="analyzeLabel">Analyze documents</span>
+        </button>
+        <span id="statusText" class="status-text"></span>
+      </div>
+
+      <!-- Real stage progress, driven by the server -->
+      <div id="progressPanel" class="progress-panel mt-3 d-none">
+        <ol id="stageList" class="stage-list list-unstyled mb-0"></ol>
+        <p id="progressMessage" class="progress-message mb-0"></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ Empty state ============ -->
+  <section id="emptyState" class="card app-card empty-state">
+    <div class="card-body text-center py-5">
+      <h2 class="card-heading mb-2">No analysis yet</h2>
+      <p class="card-sub mb-0">
+        Upload at least {{ min_files }} documents and run the analysis to see
+        contradictions with their source references.
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ Results ============ -->
+  <section id="results" class="d-none">
+
+    <div class="row g-3 mb-4" id="statRow"></div>
+
+    <div id="warningPanel" class="d-none mb-4"></div>
+
+    <!-- Conflict analysis -->
+    <div class="card app-card mb-4">
+      <div class="card-body">
+        <div class="d-flex justify-content-between align-items-start flex-wrap gap-3 mb-3">
+          <div>
+            <h2 class="card-heading">Conflict analysis</h2>
+            <p class="card-sub mb-0">
+              Statement pairs from different documents, classified by the
+              reasoning model.
+            </p>
+          </div>
+          <div class="d-flex gap-2">
+            <a id="exportJson" class="btn btn-outline-secondary btn-sm"
+               href="#" download>Export JSON</a>
+            <a id="exportCsv" class="btn btn-outline-secondary btn-sm"
+               href="#" download>Export CSV</a>
+          </div>
+        </div>
+
+        <div class="filter-bar">
+          <div>
+            <label class="filter-label" for="relFilter">Relationship</label>
+            <select id="relFilter" class="form-select form-select-sm">
+              <option value="">All relationships</option>
+              {% for item in relationships %}
+              <option value="{{ item }}">{{ item | replace('_', ' ') | title }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div>
+            <label class="filter-label" for="catFilter">Conflict category</label>
+            <select id="catFilter" class="form-select form-select-sm">
+              <option value="">All categories</option>
+              {% for item in categories %}
+              <option value="{{ item }}">{{ item | replace('_', ' ') | title }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div>
+            <label class="filter-label" for="confFilter">Minimum confidence</label>
+            <select id="confFilter" class="form-select form-select-sm">
+              <option value="">Any confidence</option>
+              <option value="0.9">0.90 and above</option>
+              <option value="0.75">0.75 and above</option>
+              <option value="0.5">0.50 and above</option>
+            </select>
+          </div>
+          <div class="filter-reset">
+            <button id="resetFilters" type="button"
+                    class="btn btn-link btn-sm p-0 text-decoration-none">
+              Reset filters
+            </button>
+          </div>
+        </div>
+
+        <p id="resultMeta" class="card-sub mt-3 mb-3"></p>
+        <div id="conflictList" class="conflict-list"></div>
+      </div>
+    </div>
+
+    <!-- Ask about your documents -->
+    <div class="card app-card mb-4">
+      <div class="card-body">
+        <h2 class="card-heading">Ask about your documents</h2>
+        <p class="card-sub">
+          Answers come only from the statements extracted above, with the
+          source of each one shown. If the documents don't cover it, the
+          answer says so.
+        </p>
+
+        <div id="chatSuggestions" class="suggestion-row" role="group"
+             aria-label="Suggested questions"></div>
+
+        <div id="chatLog" class="chat-log" aria-live="polite">
+          <p class="chat-placeholder">
+            Ask a question, or pick one of the suggestions above.
+          </p>
+        </div>
+
+        <form id="chatForm" class="chat-form" autocomplete="off">
+          <label class="visually-hidden" for="chatInput">Your question</label>
+          <input id="chatInput" type="text" class="form-control"
+                 maxlength="{{ max_question_chars }}"
+                 placeholder="e.g. What is the annual leave entitlement?">
+          <button id="chatSend" type="submit" class="btn btn-primary">
+            <span id="chatSpinner"
+                  class="spinner-border spinner-border-sm d-none"
+                  role="status" aria-hidden="true"></span>
+            <span id="chatSendLabel">Ask</span>
+          </button>
+        </form>
+        <div id="chatError" class="mt-2"></div>
+      </div>
+    </div>
+
+    <!-- Run detail -->
+    <div class="card app-card mb-4">
+      <div class="card-body">
+        <button class="section-toggle" type="button"
+                data-bs-toggle="collapse" data-bs-target="#runDetail"
+                aria-expanded="false" aria-controls="runDetail">
+          Run detail &amp; API usage
+        </button>
+        <div class="collapse" id="runDetail">
+          <div id="runDetailBody" class="mt-3"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Extracted statements -->
+    <div class="card app-card">
+      <div class="card-body">
+        <button class="section-toggle" type="button"
+                data-bs-toggle="collapse" data-bs-target="#statementPanel"
+                aria-expanded="false" aria-controls="statementPanel">
+          Extracted statements
+        </button>
+        <div class="collapse" id="statementPanel">
+          <div class="d-flex gap-2 flex-wrap mt-3 mb-3">
+            <select id="docFilter" class="form-select form-select-sm filter-input"
+                    aria-label="Filter by document">
+              <option value="">All documents</option>
+            </select>
+            <input id="textFilter" type="search"
+                   class="form-control form-control-sm filter-input"
+                   placeholder="Search statements&hellip;"
+                   aria-label="Search statements">
+          </div>
+          <p id="sentenceMeta" class="card-sub"></p>
+          <div class="table-responsive sentence-scroll">
+            <table class="table align-middle data-table mb-0">
+              <thead>
+                <tr>
+                  <th scope="col">ID</th>
+                  <th scope="col">Document</th>
+                  <th scope="col">Page</th>
+                  <th scope="col">Statement</th>
+                  <th scope="col" class="text-end">Words</th>
+                </tr>
+              </thead>
+              <tbody id="sentencesBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </section>
+</main>
+
+<footer class="app-footer">
+  <div class="container d-flex justify-content-between flex-wrap gap-2">
+    <span>CrossDoc Intelligence &middot; semantic contradiction detection</span>
+    <span id="modelFooter" class="text-muted"></span>
+  </div>
+</footer>
+
+<script>
+  window.APP_CONFIG = {
+    allowedExtensions: {{ allowed_extensions | tojson }},
+    maxFileSizeMb: {{ max_file_size_mb }},
+    minFiles: {{ min_files }},
+    maxFiles: {{ max_files }},
+    stages: {{ stages | tojson }}
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="{{ url_for('static', filename='js/text-utils.js') }}"></script>
+<script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>
